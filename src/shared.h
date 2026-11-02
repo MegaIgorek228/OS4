@@ -6,15 +6,15 @@
 #define BUFFER_SIZE 8192
 
 typedef struct {
-    sem_t mutex;            // Замок для защиты данных
-    sem_t parent_sem;       // Сигнал от родителя (данные готовы)
-    sem_t child_sem;        // Сигнал от ребенка (ответ готов)
+    sem_t mutex;
+    sem_t parent_sem;
+    sem_t child_sem;
     
-    int eof;                // Флаг окончания ввода
-    char parent_msg[BUFFER_SIZE]; // Данные от родителя
-    char child_msg[BUFFER_SIZE];  // Ошибка от ребенка
-    int is_error;           // Флаг, что ребенок нашел ошибку
-    char filename[256];     // Имя файла для записи
+    int eof;
+    char parent_msg[BUFFER_SIZE];
+    char child_msg[BUFFER_SIZE];
+    int is_error;
+    char filename[256];
 } SharedData;
 
 #endif

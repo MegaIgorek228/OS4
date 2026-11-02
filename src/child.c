@@ -9,17 +9,16 @@
 #include "shared.h"
 
 int main(void) {
+    printf("[Child] PID: %d\n", getpid());
     int fd = open("shared_mem.bin", O_RDWR);
     if (fd == -1) { perror("open shared_mem.bin"); return 1; }
     SharedData *shm = mmap(NULL, sizeof(SharedData), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
     if (shm == MAP_FAILED) { perror("mmap"); return 1; }
-
     FILE *out = fopen(shm->filename, "w");
     if (!out) { perror("fopen"); return 1; }
 
     while (1) {
         sem_wait(&shm->parent_sem);
-
         sem_wait(&shm->mutex);
         if (shm->eof) {
             sem_post(&shm->mutex);

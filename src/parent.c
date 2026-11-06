@@ -28,6 +28,11 @@ int main(void) {
     // Имя файла
     printf("Имя файла для записи: ");
     fgets(shm->filename, sizeof(shm->filename), stdin);
+    if ((unsigned char)shm->filename[0] == '\n') {
+        printf("неверное имя файла");
+        // fprintf(stderr, "Ошибка: имя файла не может быть пустым!\n");
+        return 1;
+    }
     shm->filename[strcspn(shm->filename, "\r\n")] = '\0';
 
     // Дочерний процесс
